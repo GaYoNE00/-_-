@@ -17,6 +17,7 @@ public class MainFrame extends JFrame implements KeyListener {
     private Timer fadeOutTimer, fadeInTimer;
     private float alpha = 1f;
     private JTextArea txt_2;
+
     private int currentScreen = 1; // 현재 화면을 추적하는 변수
     // 대만어 트리거 단어와 중국어 문장 배열
     private String[] triggerWords = {"媽媽", "爸爸", "母親", "父親", "哥哥", "弟弟", "兄弟", "姐妹", "姐姐", "妹妹", "家庭", "朋友", "熟人", "我", "我的"};
@@ -36,7 +37,9 @@ public class MainFrame extends JFrame implements KeyListener {
         addKeyListener(this);
         setVisible(true);
     }
-
+    public static void main(String[] args) {
+        MainFrame mf = new MainFrame("Korea");
+    }
     public void FirstScreen() {
         currentScreen = 1; // 첫 번째 화면으로 설정
         pn = new TransparentPanel();
@@ -49,7 +52,7 @@ public class MainFrame extends JFrame implements KeyListener {
 
         JTextArea tra = new JTextArea();
         tra.setEditable(false);
-        tra.setText("<你應該要快樂的時刻>代表了即使是我最快樂的記憶，也可能會因為罵人的話、恐懼和憤怒而被歪曲\n這是一種直接的無力感，我的記憶被扭曲了\n我希望你能夠想像並且情感上參與這個過程，記憶中原本應該是快樂的時刻變得不穩定和曲解");
+        tra.setText("你應該要快樂的時刻>代表了即使是我最快樂的記憶，也可能會因為罵人的話、恐懼和憤怒而被歪曲\n這是一種直接的無力感，我的記憶被扭曲了\n我希望你能夠想像並且情感上參與這個過程，記憶中原本應該是快樂的時刻變得不穩定和曲解");
         tra.setFont(new Font("HY신명조", Font.BOLD, 20));
         tra.setBorder(new EmptyBorder(100, 500, 0, 50));
 
@@ -100,6 +103,8 @@ public class MainFrame extends JFrame implements KeyListener {
         txt_2 = new JTextArea("< 慢慢地, 在這裡輸入");
         txt_2.setForeground(Color.GRAY);
         txt_2.setFont(new Font("바탕", Font.BOLD, 30));
+        txt_2.setLineWrap(true);
+        txt_2.setWrapStyleWord(true);
         txt_2.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -211,7 +216,8 @@ public class MainFrame extends JFrame implements KeyListener {
                 if (text.contains(trigger)) {
                     triggerList.add(trigger);
                     String randomStr = randomChineseStrings[new Random().nextInt(randomChineseStrings.length)];
-                    txt_2.setText(txt_2.getText() + " " + randomStr);
+//                    txt_2.setText(txt_2.getText() + " " + randomStr);
+                    addTextOneByOne(" " + randomStr, 50);
                     txt_2.setCaretPosition(txt_2.getText().length());
                     System.out.println(text);
                     text = ""; // 텍스트 초기화
@@ -219,11 +225,47 @@ public class MainFrame extends JFrame implements KeyListener {
                 }
             }
         }
+        if (e.getKeyCode() == KeyEvent.VK_F10) {
+            // 초기화해야 할 모든 변수들을 초기 상태로 되돌립니다.
+            resetApplication();
+        }
 
 
 
     }
+    private void resetApplication(){
+        text = "";
+        triggerList.clear();
+        currentScreen = 1;
 
+        // 첫 번째 화면을 다시 로드
+        remove(pn_2); // 현재 화면을 제거
+        FirstScreen(); // 첫 번째 화면을 다시 로드
+
+        // 필요한 경우 추가적인 초기화 코드
+        // ...
+
+        revalidate();
+        repaint();
+    }
+    private void addTextOneByOne(String textToAdd, int delay) {
+        Timer timer = new Timer(delay, null);
+        timer.addActionListener(new ActionListener() {
+            private int index = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (index < textToAdd.length()) {
+                    txt_2.append(String.valueOf(textToAdd.charAt(index)));
+                    index++;
+                } else {
+                    // 문자열이 완전히 추가되면 타이머 정지
+                    timer.stop();
+                }
+            }
+        });
+        timer.start();
+    }
     @Override
     public void keyReleased(KeyEvent e) {
         // 필요한 경우 여기에 코드를 추가
@@ -231,4 +273,7 @@ public class MainFrame extends JFrame implements KeyListener {
 
     // 메인 메소드 또는 다른 필요한 메소드들
     // ...
+
+
+
 }
