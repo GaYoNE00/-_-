@@ -20,10 +20,11 @@ public class MainFrame extends JFrame implements KeyListener {
 
     private int currentScreen = 1; // 현재 화면을 추적하는 변수
     // 대만어 트리거 단어와 중국어 문장 배열
-    private String[] triggerWords = {"媽媽", "爸爸", "母親", "父親", "哥哥", "弟弟", "兄弟", "姐妹", "姐姐", "妹妹", "家庭", "朋友", "熟人", "我", "我的"};
+    private String[] triggerWords = {"很好","幸福","媽媽", "爸爸", "母親", "父親", "哥哥", "弟弟", "兄弟", "姐妹", "姐姐", "妹妹", "家庭", "朋友", "熟人", "我", "我的"};
     private String[] randomChineseStrings = {"遲早會死的", "前面那個男人在看著我", "蔡秀琴，王志明", "賤人", "一直把垃圾塞進嘴裡", "剛剛旁邊那女人在嘲笑我", "醜男", "醜女", "用刀殺掉他吧", "你是故意的吧", "想死", "好髒"};
     private String text;
     private ArrayList<String> triggerList = new ArrayList<String>();
+    private int ac = 0;
 
     public MainFrame(String title) {
         setTitle(title);
@@ -215,9 +216,47 @@ public class MainFrame extends JFrame implements KeyListener {
             for (String trigger : triggerWords) {
                 if (text.contains(trigger)) {
                     triggerList.add(trigger);
-                    String randomStr = randomChineseStrings[new Random().nextInt(randomChineseStrings.length)];
+//                    String randomStr = randomChineseStrings[new Random().nextInt(randomChineseStrings.length)];
 //                    txt_2.setText(txt_2.getText() + " " + randomStr);
-                    addTextOneByOne(" " + randomStr, 50);
+//                    addTextOneByOne(" " + randomStr, 50);
+                    if(text.contains("媽媽")||text.contains("母親")){
+                        addTextOneByOne(" " + "覺得我不應該出生。", 50);
+                    }else if(text.contains("爸爸")||text.contains("父親")){
+                        addTextOneByOne(" " + "希望我死", 50);
+                    }else if(text.contains("女朋友")){
+                        addTextOneByOne(" " + "醜女", 50);
+                    }else if(text.contains("男朋友")){
+                        addTextOneByOne(" " + "醜男", 50);
+                    }else if(text.contains("愛人")){
+                        addTextOneByOne(" " + "用刀殺掉他吧", 50);
+                    }else if(text.contains("家庭")||text.contains("眷屬")){
+                        addTextOneByOne(" " + "討厭我", 50);
+                    }else if(text.contains("老太太 ")||text.contains("爺爺")){
+                        addTextOneByOne(" " + "覺得我不是親生子女。", 50);
+                    }else if(text.contains("姐姐")||text.contains("姐兒")){
+                        addTextOneByOne(" " + "蔡秀琴", 50);
+                    }else if(text.contains("姐妹")||text.contains("妹妹")){
+                        addTextOneByOne(" " + "賤人", 50);
+                    }else if(text.contains("哥哥")||text.contains("荊")){
+                        addTextOneByOne(" " + "王志明", 50);
+                    }else if(text.contains("弟弟")||text.contains("兄弟")){
+                        addTextOneByOne(" " + "遲早會死。", 50);
+                    }else if(text.contains("朋友")){
+                        String r[] = {"一直把垃圾塞進嘴裡","後面那個男人在看着我。","剛剛旁邊那女人在嘲笑我 ", "好髒"};
+                        if(ac<4){
+                         ac +=1;
+                        }else{
+                         ac = 0;
+                        }
+                        addTextOneByOne(" " + r[ac], 50);
+
+                    }else if(text.contains("幸福")){
+                        String gt = txt_2.getText().replace("幸福","不幸");
+                        txt_2.setText(gt);
+                    }else if(text.contains("很好")){
+                        String gt = txt_2.getText().replace("很好","不好");
+                        txt_2.setText(gt);
+                    }
                     txt_2.setCaretPosition(txt_2.getText().length());
                     System.out.println(text);
                     text = ""; // 텍스트 초기화
