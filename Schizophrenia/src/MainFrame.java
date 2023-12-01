@@ -28,10 +28,12 @@ public class MainFrame extends JFrame implements KeyListener {
 
     public MainFrame(String title) {
         setTitle(title);
-        setSize(1920, 1080);
+//        setSize(1920, 1080);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
         setBackground(Color.black);
         FirstScreen();
         setFocusable(true);
@@ -48,14 +50,14 @@ public class MainFrame extends JFrame implements KeyListener {
         pn.setBackground(Color.white);
 
         JLabel lblTitle = new JLabel("你應該要快樂的時刻 / The Moment When Should Be Happy");
-        lblTitle.setFont(new Font("HY신명조", Font.BOLD, 20));
-        lblTitle.setBorder(new EmptyBorder(350, 700, 0, 50));
+        lblTitle.setFont(new Font("ToneOZ-Zhuyin-Kai-Traditional", Font.BOLD, 20));
+        lblTitle.setBorder(new EmptyBorder(350, 300, 0, 50));
 
         JTextArea tra = new JTextArea();
         tra.setEditable(false);
-        tra.setText("你應該要快樂的時刻>代表了即使是我最快樂的記憶，也可能會因為罵人的話、恐懼和憤怒而被歪曲\n這是一種直接的無力感，我的記憶被扭曲了\n我希望你能夠想像並且情感上參與這個過程，記憶中原本應該是快樂的時刻變得不穩定和曲解");
-        tra.setFont(new Font("HY신명조", Font.BOLD, 20));
-        tra.setBorder(new EmptyBorder(100, 500, 0, 50));
+        tra.setText("你應該要快樂的時刻>代表了即使是我最快樂的記憶，\n也可能會因為罵人的話、恐懼和憤怒而被歪曲這是一種直接的無力感，\n我的記憶被扭曲了 \n我希望你能夠想像並且情感上參與這個過程，\n記憶中原本應該是快樂的時刻變得不穩定和曲解");
+        tra.setFont(new Font("ToneOZ-Zhuyin-Kai-Traditional", Font.BOLD, 20));
+        tra.setBorder(new EmptyBorder(100, 300, 0, 00));
 
         pn.add(lblTitle, BorderLayout.NORTH);
         pn.add(tra, BorderLayout.CENTER);
