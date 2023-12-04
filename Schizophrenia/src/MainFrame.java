@@ -53,11 +53,11 @@ public class MainFrame extends JFrame implements KeyListener {
 
         JLabel lblTitle = new JLabel("你應該要快樂的時刻");
         lblTitle.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 70));
-        lblTitle.setBorder(new EmptyBorder(700, 600, 0, 0));
+        lblTitle.setBorder(new EmptyBorder(700, 400, 0, 0));
 
         JLabel lblTitle2 = new JLabel("按'Enter'开始。");
         lblTitle2.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 70));
-        lblTitle2.setBorder(new EmptyBorder(0, 700, 100, 50));
+        lblTitle2.setBorder(new EmptyBorder(0, 500, 100, 50));
         lblTitle2.setForeground(Color.gray);
 
         JTextArea tra = new JTextArea();
@@ -99,11 +99,11 @@ public class MainFrame extends JFrame implements KeyListener {
         JTextArea title = new JTextArea("你人生中最幸福的那一天是怎樣的一天呢? \n\r 是什麼樣的記憶使你那天覺得幸福呢?");
         title.setEditable(false);
         title.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 30));
-        title.setBorder(new EmptyBorder(50, 600, 0, 50));
+        title.setBorder(new EmptyBorder(50, 400, 0, 50));
 
         JTextField titleBottom = new JTextField("请按f11重置。");
         titleBottom.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 30));
-        titleBottom.setBorder(new EmptyBorder(50, 1500, 0, 50));
+        titleBottom.setBorder(new EmptyBorder(50, 1200, 0, 50));
         titleBottom.setForeground(Color.gray);
 
         JTextPane lblTitle_2 = new JTextPane();
@@ -127,15 +127,16 @@ public class MainFrame extends JFrame implements KeyListener {
         txt_2.setLineWrap(true);
 //        txt_2.setBackground(Color.black);
         txt_2.setWrapStyleWord(true);
-        randomStringTimer = new Timer(20000, new ActionListener() {
+        randomStringTimer = new Timer(5000, new ActionListener() {
             private boolean isFirstTime = true;
             @Override
             public void actionPerformed(ActionEvent e) {
-                randomStringTimer.setDelay(10000); // 첫 실행 후 8초로 변경
-
-
+                randomStringTimer.setDelay(1000); // 첫 실행 후 8초로 변경
                 String randomStr = randomChineseStrings[new Random().nextInt(randomChineseStrings.length)];
-                txt_2.append(randomStr); // txt_2에 문자열 추가
+//                txt_2.grabFocus();
+//                txt_2.requestFocus();
+                txt_2.setText(txt_2.getText()+randomStr);
+//                txt_2.append(randomStr); // txt_2에 문자열 추가
             }
         });
         randomStringTimer.start();
