@@ -28,6 +28,8 @@ public class MainFrame extends JFrame implements KeyListener {
     private ArrayList<String> triggerList = new ArrayList<String>();
     private int ac = 0;
     private Timer randomStringTimer; // 새로운 Timer 객체 추가
+
+    private int count;
     public MainFrame(String title) {
         setTitle(title);
 //        setSize(1920, 1080);
@@ -53,11 +55,11 @@ public class MainFrame extends JFrame implements KeyListener {
 
         JLabel lblTitle = new JLabel("你應該要快樂的時刻");
         lblTitle.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 70));
-        lblTitle.setBorder(new EmptyBorder(700, 400, 0, 0));
+        lblTitle.setBorder(new EmptyBorder(300, 400, 0, 0));
 
         JLabel lblTitle2 = new JLabel("按'Enter'开始。");
-        lblTitle2.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 70));
-        lblTitle2.setBorder(new EmptyBorder(0, 500, 100, 50));
+        lblTitle2.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 30));
+        lblTitle2.setBorder(new EmptyBorder(0, 600, 350, 50));
         lblTitle2.setForeground(Color.gray);
 
         JTextArea tra = new JTextArea();
@@ -96,14 +98,14 @@ public class MainFrame extends JFrame implements KeyListener {
         pns_2.setBorder(new EmptyBorder(50, 50, 0, 50));
         pns_2.setBackground(Color.white);
 
-        JTextArea title = new JTextArea("你人生中最幸福的那一天是怎樣的一天呢? \n\r 是什麼樣的記憶使你那天覺得幸福呢?");
+        JTextArea title = new JTextArea("你人生中最幸福的那一天是怎樣的一天呢? \n\r   是什麼樣的記憶使你那天覺得幸福呢?");
         title.setEditable(false);
         title.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 30));
-        title.setBorder(new EmptyBorder(50, 400, 0, 50));
+        title.setBorder(new EmptyBorder(50, 450, 0, 50));
 
-        JTextField titleBottom = new JTextField("请按f11重置。");
+        JTextField titleBottom = new JTextField("請按「F11」重置");
         titleBottom.setFont(new Font("YangRenDongZhuShiTi", Font.TRUETYPE_FONT, 30));
-        titleBottom.setBorder(new EmptyBorder(50, 1200, 0, 50));
+        titleBottom.setBorder(new EmptyBorder(0, 1200, 100, 50));
         titleBottom.setForeground(Color.gray);
 
         JTextPane lblTitle_2 = new JTextPane();
@@ -127,16 +129,25 @@ public class MainFrame extends JFrame implements KeyListener {
         txt_2.setLineWrap(true);
 //        txt_2.setBackground(Color.black);
         txt_2.setWrapStyleWord(true);
-        randomStringTimer = new Timer(5000, new ActionListener() {
+        randomStringTimer = new Timer(13500, new ActionListener() {
             private boolean isFirstTime = true;
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                randomStringTimer.setDelay(1000); // 첫 실행 후 8초로 변경
-                String randomStr = randomChineseStrings[new Random().nextInt(randomChineseStrings.length)];
-//                txt_2.grabFocus();
-//                txt_2.requestFocus();
-                txt_2.setText(txt_2.getText()+randomStr);
-//                txt_2.append(randomStr); // txt_2에 문자열 추가
+                if(count==15){
+                    randomStringTimer.stop();
+                    resetApplication();
+                }
+                if(!isFirstTime){
+                    String randomStr = randomChineseStrings[new Random().nextInt(randomChineseStrings.length)];
+                    txt_2.setText(txt_2.getText()+randomStr);
+                    count+=1;
+                }else{
+                    count=0;
+                    isFirstTime = false;
+                    randomStringTimer.setDelay(15000); // 첫 실행 후 8초로 변경
+                    count+=1;
+                }
             }
         });
         randomStringTimer.start();
@@ -208,7 +219,27 @@ public class MainFrame extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (currentScreen == 1 && e.getKeyCode() == KeyEvent.VK_ENTER) {
+            // 첫 번째 화면에서 엔터 키를 눌렀을 때
+            // ... 첫 번째 화면에서 두 번째 화면으로 전환하는 코드 ...
 
+
+            System.out.println("Enter key");
+            fadeOutTimer = new Timer(15, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    alpha -= 0.02f;
+                    if (alpha <= 0f) {
+                        alpha = 0f;
+                        fadeOutTimer.stop();
+                        remove(pn);
+                        SecondScreen();
+                    }
+                    pn.repaint();
+                }
+            });
+            fadeOutTimer.start();
+        }
     }
 
     @Override
@@ -264,6 +295,7 @@ public class MainFrame extends JFrame implements KeyListener {
         text = "";
         triggerList.clear();
         currentScreen = 1;
+        randomStringTimer.stop();
 
         // 첫 번째 화면을 다시 로드
         remove(pn_2); // 현재 화면을 제거
